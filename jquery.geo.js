@@ -23,6 +23,7 @@
    var publicMethods = {
      locate :function( successCallback, failureCallback ) {
           if(navigator.geolocation) {
+            // browser supports W3C geolocation API
             navigator.geolocation.getCurrentPosition( 
               function(location){
                 processLocation(location, successCallback);
@@ -32,6 +33,7 @@
               });
           }
           else if(window.google && google.gears) {
+            // this provides support for Android versions < 2.0
             var geo = google.gears.factory.create('beta.geolocation');
             geo.getCurrentPosition(
               function(location){
@@ -42,17 +44,24 @@
               }); 
           }
           else {
-            processError(null, failureCallback);
+            processError({code: 99}, failureCallback);
           }
      }
    };
 
+  // success!! we have a latitude and longitude
   var processLocation = function (location, callback) {
     callback( location.coords.latitude,  location.coords.longitude );
   }
 
+  /* we have failed to get a location
+   * error is null if device does not support W3C geolocation 
+   * otherwise error is instance of PositionError
+   * http://dev.w3.org/geo/api/spec-source.html#position_error_interface */
+   
   var processError = function (error, callback) {
     var message;
+    
     switch(error.code) {
       case error.TIMEOUT:
         message = "Geolocation Timeout"
@@ -70,6 +79,7 @@
     callback(error, message); 
   }   
 
+  // best proactice jQuery plugin namespacing
   $.geo = function( method ) {
 
     if ( publicMethods[method] ) {
