@@ -79,7 +79,7 @@
     callback(error, message); 
   }   
 
-  // best proactice jQuery plugin namespacing
+  // best practice jQuery plugin namespacing
   $.geo = function( method ) {
 
     if ( publicMethods[method] ) {
