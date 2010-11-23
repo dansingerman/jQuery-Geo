@@ -9,6 +9,9 @@ e.g.
 $.geo("locate",function(lat, lon){
   $("#result").html("your location is " + lat + ", " + lon)
 },
-function(err){
-  $("#result").html(err.message)
+function(error, message){
+  // returns error object of type PositionError
+  // see http://dev.w3.org/geo/api/spec-source.html#position_error_interface
+  // and human readable message in text
+  $("#result").html(message)
 });
