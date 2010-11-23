@@ -1,4 +1,4 @@
-*!
+/*!
  * jQuery-Geo jQuery plugin v0.0.1
  *
  * Copyright 2010 by Dan Singerman <dansingerman@gmail.com>
@@ -22,41 +22,43 @@
    
   var methods = {
     locate :function( successCallback, failureCallback ) {
-      return this.each(function() {
          if(navigator.geolocation) {
            navigator.geolocation.getCurrentPosition( 
              function(location){
-               successCallback( position.coords.latitude,  position.coords.longitude );
+               successCallback( location.coords.latitude,  location.coords.longitude );
              }, 
-             function(message){
-               failureCallback( message );
+             function(err){
+               failureCallback( err );
              });
          }
          else if(window.google && google.gears) {
            var geo = google.gears.factory.create('beta.geolocation');
            geo.getCurrentPosition(
              function(location){
-               successCallback( position.coords.latitude,  position.coords.longitude );
+               successCallback( location.coords.latitude,  location.coords.longitude );
              }, 
-             function(message){
-               failureCallback( message );
+             function(err){
+               failureCallback( err );
              }); 
          }
          else {
-           failureCallback( message );
+           failureCallback( 
+             { code :99, 
+               message :"Gelocation not supported by jQuery-Geo"
+             } 
+         );
          }
-      });
     }
   };
   
-  $.fn.geo = function( method ) {
+  $.geo = function( method ) {
     
     if ( methods[method] ) {
       return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
     } else if ( typeof method === 'object' || ! method ) {
       return methods.init.apply( this, arguments );
     } else {
-      $.error( 'Method ' +  method + ' does not exist on jQuery.geo' );
+      $.error( 'Method ' +  method + ' does not exist on jQuery-Geo for this device' );
     }    
   
   };
