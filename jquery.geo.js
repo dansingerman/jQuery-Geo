@@ -52,7 +52,7 @@
   // success!! we have a latitude and longitude
   var processLocation = function (location, callback) {
     callback( location.coords.latitude,  location.coords.longitude );
-  }
+  };
 
   /* we have failed to get a location
    * error has made up status code of 99 if device does not support W3C geolocation 
@@ -64,20 +64,20 @@
     
     switch(error.code) {
       case error.TIMEOUT:
-        message = "Geolocation Timeout"
+        message = "Geolocation Timeout";
         break;
       case error.PERMISSION_DENIED:
-        message = "Permission Denied"
+        message = "Permission Denied";
         break;
       case error.POSITION_UNAVAILABLE:
-        message = "Position Unavailable"
+        message = "Position Unavailable";
         break;
       default:
         message = "Geolocation not supported by jQuery-Geo";
-    };
+    }
 
     callback(error, message); 
-  }   
+  }; 
 
   // best practice jQuery plugin namespacing
   $.geo = function( method ) {
