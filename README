@@ -1,0 +1,14 @@
+This is a simple jQuery plugin to encapsulate a bunch of geolocation functionality.
+
+Usage:
+
+$.geo("locate", successFunction, failureFunction))
+
+e.g.
+
+$.geo("locate",function(lat, lon){
+  $("#result").html("your location is " + lat + ", " + lon)
+},
+function(err){
+  $("#result").html(err.message)
+})
