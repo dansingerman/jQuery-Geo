@@ -55,7 +55,7 @@
   }
 
   /* we have failed to get a location
-   * error is null if device does not support W3C geolocation 
+   * error has made up status code of 99 if device does not support W3C geolocation 
    * otherwise error is instance of PositionError
    * http://dev.w3.org/geo/api/spec-source.html#position_error_interface */
    
