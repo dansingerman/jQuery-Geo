@@ -17,11 +17,11 @@
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- 
-  (function($){
+
+(function($){
 
    var publicMethods = {
-     locate :function( successCallback, failureCallback ) {
+     locate : function( successCallback, failureCallback ) {
           if(navigator.geolocation) {
             // browser supports W3C geolocation API
             navigator.geolocation.getCurrentPosition( 
@@ -46,7 +46,24 @@
           else {
             processError({code: 99}, failureCallback);
           }
+     },
+     
+     /* Haversine formula calculations taken from
+        http://www.movable-type.co.uk/scripts/latlong.html
+     */
+     
+     distance : function( lat1 , lon1 , lat2 , lon2) {
+       var R = 6371; // km
+       var dLat = (lat2-lat1) * (Math.PI / 180);
+       var dLon = (lon2-lon1) * (Math.PI / 180); 
+       var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+               Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
+               Math.sin(dLon/2) * Math.sin(dLon/2); 
+       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+       var d = R * c;
+       return d * 1000;
      }
+     
    };
 
   // success!! we have a latitude and longitude
