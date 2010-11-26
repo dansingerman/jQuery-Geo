@@ -9,8 +9,10 @@ $.geo("locate", successFunction, failureFunction);
 
 e.g.
 
-$.geo("locate",function(lat, lon){
-  $("#result").html("your location is " + lat + ", " + lon);
+$.geo("locate",function(position){
+  // returns error object of type Position
+  // see http://dev.w3.org/geo/api/spec-source.html#position_interface
+  $("#result").html("your location is " + position.coords.latitude + ", " + position.coords.longitude);
 },
 function(error, message){
   // returns error object of type PositionError

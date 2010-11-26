@@ -22,29 +22,31 @@
 
    var publicMethods = {
      locate : function( successCallback, failureCallback ) {
-          if(navigator.geolocation) {
+          if ( navigator.geolocation ) {
             // browser supports W3C geolocation API
-            navigator.geolocation.getCurrentPosition( 
-              function(location){
-                processLocation(location, successCallback);
-              }, 
+            navigator.geolocation.getCurrentPosition(
+              function( position ){
+                processLocation( position , successCallback);
+              },
               function(err){
-                processError(err, failureCallback); 
+                processError( err, failureCallback );
               });
           }
-          else if(window.google && google.gears) {
+          else if ( window.google && google.gears ) {
             // this provides support for Android versions < 2.0
-            var geo = google.gears.factory.create('beta.geolocation');
+            var geo = google.gears.factory.create( 'beta.geolocation' );
             geo.getCurrentPosition(
-              function(location){
-                processLocation(location, successCallback);
-              }, 
+              function( position ){
+                processLocation( position , successCallback );
+              },
               function(err){
-                processError(err, failureCallback);
-              }); 
+                processError( err , failureCallback );
+              });
           }
           else {
-            processError({code: 99}, failureCallback);
+            processError( {
+              code: 99
+            }, failureCallback );
           }
      },
      
@@ -55,11 +57,11 @@
      distance : function( lat1 , lon1 , lat2 , lon2) {
        var R = 6371; // km
        var dLat = (lat2-lat1) * (Math.PI / 180);
-       var dLon = (lon2-lon1) * (Math.PI / 180); 
+       var dLon = (lon2-lon1) * (Math.PI / 180);
        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-               Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-               Math.sin(dLon/2) * Math.sin(dLon/2); 
-       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+               Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+               Math.sin(dLon/2) * Math.sin(dLon/2);
+       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
        var d = R * c;
        return d * 1000;
      }
@@ -67,19 +69,19 @@
    };
 
   // success!! we have a latitude and longitude
-  var processLocation = function (location, callback) {
-    callback( location.coords.latitude,  location.coords.longitude );
+  var processLocation = function ( position , callback ) {
+    callback( position );
   };
 
   /* we have failed to get a location
-   * error has made up status code of 99 if device does not support W3C geolocation 
+   * error has made up status code of 99 if device does not support W3C geolocation
    * otherwise error is instance of PositionError
    * http://dev.w3.org/geo/api/spec-source.html#position_error_interface */
    
-  var processError = function (error, callback) {
+  var processError = function ( error, callback ) {
     var message;
     
-    switch(error.code) {
+    switch( error.code ) {
       case error.TIMEOUT:
         message = "Geolocation Timeout";
         break;
@@ -90,11 +92,11 @@
         message = "Position Unavailable";
         break;
       default:
-        message = "Geolocation not supported by jQuery-Geo";
+        message = "Geolocation not supported by jQuery-Geo for your device";
     }
 
-    callback(error, message); 
-  }; 
+    callback( error, message );
+  };
 
   // best practice jQuery plugin namespacing
   $.geo = function( method ) {
