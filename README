@@ -10,7 +10,7 @@ $.geo("locate", successFunction, failureFunction);
 e.g.
 
 $.geo("locate",function(position){
-  // returns error object of type Position
+  // returns object of type Position
   // see http://dev.w3.org/geo/api/spec-source.html#position_interface
   $("#result").html("your location is " + position.coords.latitude + ", " + position.coords.longitude);
 },
