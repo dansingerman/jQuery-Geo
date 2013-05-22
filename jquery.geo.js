@@ -106,7 +106,7 @@
     } else if ( typeof method === 'object' || ! method ) {
      return publicMethods.init.apply( this, arguments );
     } else {
-     $.error( 'Method ' +  method + ' does not exist on jQuery.geo' );
+     $.error( 'Method ' +  method + ' does not exist in jQuery.geo' );
     }    
 
   };
